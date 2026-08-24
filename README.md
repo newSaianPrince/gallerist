@@ -464,4 +464,3 @@ Uygulama varsayılan olarak **`http://localhost:8080`** portunda çalışacaktı
 
 - **Geliştirici:** Ömer Semizoğlu
 - **Proje Türü:** Staj Bitirme Çalışması / Capstone Project
-- **Lisans:** Bu proje eğitim ve portfolyo amacıyla hazırlanmıştır.
