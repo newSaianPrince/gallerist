@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="omersemizoglu">
+        <!-- Sequence for Hibernate -->
+        <!-- <createSequence sequenceName="account_seq" incrementBy="50" startValue="1"/> -->
+        
+        <createTable tableName="account">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="account_no" type="varchar(255)"/>
+            <column name="amount" type="numeric(38, 2)"/>
+            <column name="curreny_type" type="varchar(255)"/>
+            <column name="iban" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="address">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="city" type="varchar(255)"/>
+            <column name="district" type="varchar(255)"/>
+            <column name="neighborhood" type="varchar(255)"/>
+            <column name="street" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="car">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="brand" type="varchar(255)"/>
+            <column name="car_status_type" type="varchar(255)"/>
+            <column name="currency_type" type="varchar(255)"/>
+            <column name="damage_price" type="numeric(38, 2)"/>
+            <column name="model" type="varchar(255)"/>
+            <column name="plaka" type="varchar(255)"/>
+            <column name="price" type="numeric(38, 2)"/>
+            <column name="production_year" type="int"/>
+        </createTable>
+
+        <createTable tableName="customer">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="birth_of_date" type="datetime"/>
+            <column name="first_name" type="varchar(255)"/>
+            <column name="last_name" type="varchar(255)"/>
+            <column name="tckn" type="varchar(255)"/>
+            <column name="account_id" type="bigint">
+                <constraints unique="true"/>
+            </column>
+            <column name="address_id" type="bigint">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="gallerist">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="first_name" type="varchar(255)"/>
+            <column name="last_name" type="varchar(255)"/>
+            <column name="address_id" type="bigint">
+                <constraints unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="gallerist_car">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="car_id" type="bigint"/>
+            <column name="gallerist_id" type="bigint"/>
+        </createTable>
+        <addUniqueConstraint tableName="gallerist_car" columnNames="gallerist_id, car_id" constraintName="uq_gallerist_car"/>
+
+        <createTable tableName="saled_car">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="car_id" type="bigint"/>
+            <column name="customer_id" type="bigint"/>
+            <column name="gallerist_id" type="bigint"/>
+        </createTable>
+        <addUniqueConstraint tableName="saled_car" columnNames="gallerist_id, car_id, customer_id" constraintName="uq_gallerist_car_customer"/>
+
+        <createTable tableName="user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="username" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="refresh_token">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="create_time" type="datetime"/>
+            <column name="expired_date" type="datetime"/>
+            <column name="refresh_token" type="varchar(255)"/>
+            <column name="user_id" type="bigint"/>
+        </createTable>
+
+        <!-- Foreign Keys -->
+        <addForeignKeyConstraint baseTableName="customer" baseColumnNames="account_id" constraintName="fk_customer_account" referencedTableName="account" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="customer" baseColumnNames="address_id" constraintName="fk_customer_address" referencedTableName="address" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="gallerist" baseColumnNames="address_id" constraintName="fk_gallerist_address" referencedTableName="address" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="gallerist_car" baseColumnNames="car_id" constraintName="fk_gc_car" referencedTableName="car" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="gallerist_car" baseColumnNames="gallerist_id" constraintName="fk_gc_gallerist" referencedTableName="gallerist" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="saled_car" baseColumnNames="car_id" constraintName="fk_sc_car" referencedTableName="car" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="saled_car" baseColumnNames="customer_id" constraintName="fk_sc_customer" referencedTableName="customer" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="saled_car" baseColumnNames="gallerist_id" constraintName="fk_sc_gallerist" referencedTableName="gallerist" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="refresh_token" baseColumnNames="user_id" constraintName="fk_rt_user" referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

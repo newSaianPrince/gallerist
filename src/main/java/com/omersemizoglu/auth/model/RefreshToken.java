@@ -1,27 +1,33 @@
-package com.omersemizoglu.model;
+package com.omersemizoglu.auth.model;
 
+import java.util.Date;
+
+import com.omersemizoglu.model.BaseEntity;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "gallerist_car",
-uniqueConstraints = {@UniqueConstraint(columnNames = {"gallerist_id" , "car_id"},name = "uq_gallerist_car")})
+@Table(name = "refresh_token")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GalleristCar extends BaseEntity{
+public class RefreshToken extends BaseEntity{
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Gallerist gallerist;
+	@Column(name = "refresh_token")
+	private String refreshToken;
+	
+	@Column(name = "expired_date")
+	private Date expiredDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	private Car car;
+	private User user;
 }

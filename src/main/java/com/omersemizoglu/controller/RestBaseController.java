@@ -10,3 +10,4 @@ public class RestBaseController {
 		return RootEntity.error(errorMessage);
 	}
 }
+

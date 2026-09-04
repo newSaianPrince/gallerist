@@ -1,6 +1,7 @@
 package com.omersemizoglu.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -19,12 +20,12 @@ name = "uq_gallerist_car_customer")})
 @AllArgsConstructor
 public class SaledCar  extends BaseEntity{
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Gallerist gallerist;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Car car;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Customer customer;
 }
