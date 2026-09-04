@@ -63,7 +63,8 @@ Sistem; araçların galerilerle eşleştirilmesi, müşteri bakiye yönetimi, **
 | **Framework** | Spring Boot 3.3.4 | Bağımlılık yönetimi ve mikroservis altyapısı |
 | **Güvenlik** | Spring Security & JJWT 0.11.5 | Stateless JWT & Refresh Token doğrulaması |
 | **Veritabanı** | PostgreSQL | İlişkisel veritabanı (`schema: gallerist`) |
-| **ORM / Veri Erişimi** | Spring Data JPA / Hibernate | Nesne-İlişkisel eşleme (`ddl-auto=update`) |
+| **ORM / Veri Erişimi** | Spring Data JPA / Hibernate | Nesne-İlişkisel eşleme (`ddl-auto=validate`) |
+| **Veritabanı Göçü** | Liquibase | Şema yönetimi ve versiyonlama |
 | **Validasyon** | Hibernate Validator | `@Valid`, `@NotNull`, `@NotBlank` doğrulamaları |
 | **Yardımcı Araçlar** | Lombok | `@Getter`, `@Setter`, `@Builder`, `@NoArgsConstructor` |
 | **Derleme & Paketleme**| Apache Maven 3.8+ | Proje yaşam döngüsü ve bağımlılık yönetimi |
@@ -84,11 +85,11 @@ graph TD
     end
     
     subgraph API["REST Controller Katmanı"]
-        RestCtrl["IRest*Controller &lt;-- Rest*ControllerImpl"]
+        RestCtrl["Rest*Controller"]
     end
 
     subgraph Business["İş Mantığı (Service) Katmanı"]
-        Service["I*Service &lt;-- *ServiceImpl"]
+        Service["*Service"]
         TCMB["TCMB Döviz Kuru Servisi"]
     end
 
@@ -400,17 +401,15 @@ Sistem genelinde fırlatılan tüm istisnalar `GlobalExceptionHandler` tarafınd
 ```
 com.omersemizoglu
 ├── config/              # Uygulama ve Spring Security yapılandırmaları
-├── controller/          # REST API Arayüzleri ve Implementasyonları
-│   └── impl/
-├── dto/                 # İstek (IU) ve Yanıt DTO sınıfları
+├── controller/          # REST API Sınıfları
+├── dto/                 # İstek (IU) ve Yanıt DTO sınıfları (auth alt paketi dahil)
 ├── enums/               # CarStatusType, CurrencyType enum tanımları
 ├── exception/           # Özel istisnalar, ErrorMessage ve MessageType
 ├── handler/             # GlobalExceptionHandler, AuthEntryPoint
 ├── jwt/                 # JWTService, JWTAuthenticationFilter
 ├── model/               # JPA Entity'leri (BaseEntity kalıtımlı)
 ├── repository/          # Spring Data JpaRepository arayüzleri
-├── service/             # İş kuralları servisleri ve implementasyonları
-│   └── impl/
+├── service/             # İş kuralları servisleri
 ├── starter/             # Spring Boot Main Sınıfı (GalleristApplicationStarter)
 └── utils/               # Tarih ve yardımcı araç sınıfları (DateUtils)
 ```
@@ -441,9 +440,13 @@ spring.jpa.properties.hibernate.default_schema=gallerist
 spring.datasource.username=postgres
 spring.datasource.password=your_postgres_password
 
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
+
+# Liquibase
+spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.xml
+spring.liquibase.default-schema=gallerist
 
 jwt.secret-key=JfVoLB61pmyKbWswGsuxD6TMnPFZzsoOACmSd1mA5hM=
 ```
