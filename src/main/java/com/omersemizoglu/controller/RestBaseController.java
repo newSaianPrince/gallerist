@@ -1,5 +1,7 @@
 package com.omersemizoglu.controller;
 
+import com.omersemizoglu.dto.response.RootEntity;
+
 public class RestBaseController {
 
 	public <T> RootEntity<T> ok(T payload) {

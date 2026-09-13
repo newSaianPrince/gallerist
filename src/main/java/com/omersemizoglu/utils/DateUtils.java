@@ -1,15 +1,21 @@
 package com.omersemizoglu.utils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class DateUtils {
 
-	public static String getCurrentDate(Date date) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		return simpleDateFormat.format(date);
+	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+	public static String getCurrentDate(LocalDate date) {
+		return date.format(DATE_FORMATTER);
+	}
+
+	public static String getCurrentDate(LocalDateTime dateTime) {
+		return dateTime.toLocalDate().format(DATE_FORMATTER);
 	}
 }

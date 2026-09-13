@@ -65,15 +65,16 @@ Sistem; araçların galerilerle eşleştirilmesi, müşteri bakiye yönetimi, **
 | **Veritabanı** | PostgreSQL | İlişkisel veritabanı (`schema: gallerist`) |
 | **ORM / Veri Erişimi** | Spring Data JPA / Hibernate | Nesne-İlişkisel eşleme (`ddl-auto=validate`) |
 | **Veritabanı Göçü** | Liquibase | Şema yönetimi ve versiyonlama |
+| **Nesne Dönüşümü** | MapStruct 1.5.5 | Otomatik Entity ↔ DTO mapping |
 | **Validasyon** | Hibernate Validator | `@Valid`, `@NotNull`, `@NotBlank` doğrulamaları |
-| **Yardımcı Araçlar** | Lombok | `@Getter`, `@Setter`, `@Builder`, `@NoArgsConstructor` |
+| **Yardımcı Araçlar** | Lombok | `@Getter`, `@Setter`, `@RequiredArgsConstructor` |
 | **Derleme & Paketleme**| Apache Maven 3.8+ | Proje yaşam döngüsü ve bağımlılık yönetimi |
 
 ---
 
 ## 🏗️ Sistem Mimarisi
 
-Proje **Katmanlı Mimari (Layered Architecture)** ve **Interface - Implementation** tasarım deseni prensipleri doğrultusunda geliştirilmiştir:
+Proje **Katmanlı Mimari (Layered Architecture)** prensipleri doğrultusunda geliştirilmiştir:
 
 ```mermaid
 graph TD
@@ -407,9 +408,10 @@ com.omersemizoglu
 ├── exception/           # Özel istisnalar, ErrorMessage ve MessageType
 ├── handler/             # GlobalExceptionHandler, AuthEntryPoint
 ├── jwt/                 # JWTService, JWTAuthenticationFilter
-├── model/               # JPA Entity'leri (BaseEntity kalıtımlı)
+├── mapper/              # MapStruct Entity ↔ DTO mapper arayüzleri
+├── model/               # JPA Entity'leri (BaseEntity kalıtımlı, LocalDateTime)
 ├── repository/          # Spring Data JpaRepository arayüzleri
-├── service/             # İş kuralları servisleri
+├── service/             # İş kuralları servisleri (@RequiredArgsConstructor)
 ├── starter/             # Spring Boot Main Sınıfı (GalleristApplicationStarter)
 └── utils/               # Tarih ve yardımcı araç sınıfları (DateUtils)
 ```

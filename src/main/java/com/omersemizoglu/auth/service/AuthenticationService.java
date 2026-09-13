@@ -1,11 +1,11 @@
 package com.omersemizoglu.auth.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,30 +25,25 @@ import com.omersemizoglu.auth.repository.RefreshTokenRepository;
 import com.omersemizoglu.auth.repository.UserRepository;
 import com.omersemizoglu.mapper.UserMapper;
 
+@RequiredArgsConstructor
 @Service
 public class AuthenticationService{
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	private final BCryptPasswordEncoder passwordEncoder;
 	
-	@Autowired
-	private AuthenticationProvider authenticationProvider;
+	private final AuthenticationProvider authenticationProvider;
 	
-	@Autowired
-	private JWTService jwtService;
+	private final JWTService jwtService;
 	
-	@Autowired
-	private RefreshTokenRepository refreshTokenRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
-	@Autowired
-	private UserMapper userMapper;
+	private final UserMapper userMapper;
 	
 	private User createUser(AuthRequest input) {
 		User user = new User();
-		user.setCreateTime(new Date());
+		user.setCreateTime(LocalDateTime.now());
 		user.setUsername(input.getUsername());
 		user.setPassword(passwordEncoder.encode(input.getPassword()));
 		
@@ -57,8 +52,8 @@ public class AuthenticationService{
 	
 	private RefreshToken createRefreshToken(User user) {
 		RefreshToken refreshToken = new RefreshToken();
-		refreshToken.setCreateTime(new Date());
-		refreshToken.setExpiredDate(new Date(System.currentTimeMillis() + 1000*60*60*4));
+		refreshToken.setCreateTime(LocalDateTime.now());
+		refreshToken.setExpiredDate(LocalDateTime.now().plusHours(4));
 		refreshToken.setRefreshToken(UUID.randomUUID().toString());
 		refreshToken.setUser(user);
 		return refreshToken;
@@ -86,8 +81,8 @@ public class AuthenticationService{
 		}
 	}
 	
-	public boolean isValidRefreshToken(Date expiredDate) {
-		return new Date().before(expiredDate);
+	public boolean isValidRefreshToken(LocalDateTime expiredDate) {
+		return LocalDateTime.now().isBefore(expiredDate);
 	}
 
 	public AuthResponse refreshToken(RefreshTokenRequest input) {
@@ -107,4 +102,3 @@ public class AuthenticationService{
 		return new AuthResponse(accessToken, savedRefreshToken.getRefreshToken());
 	}
 }
-

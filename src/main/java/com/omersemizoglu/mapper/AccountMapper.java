@@ -1,31 +1,17 @@
 package com.omersemizoglu.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.omersemizoglu.dto.request.DtoAccountIU;
 import com.omersemizoglu.dto.response.DtoAccount;
 import com.omersemizoglu.model.Account;
 
-@Component
-public class AccountMapper {
+@Mapper(componentModel = "spring")
+public interface AccountMapper {
+	DtoAccount toDto(Account account);
 
-	public DtoAccount toDto(Account account) {
-		DtoAccount dto = new DtoAccount();
-		dto.setId(account.getId());
-		dto.setCreateTime(account.getCreateTime());
-		dto.setAccountNo(account.getAccountNo());
-		dto.setIban(account.getIban());
-		dto.setAmount(account.getAmount());
-		dto.setCurrencyType(account.getCurrencyType());
-		return dto;
-	}
-
-	public Account toEntity(DtoAccountIU dto) {
-		Account account = new Account();
-		account.setAccountNo(dto.getAccountNo());
-		account.setIban(dto.getIban());
-		account.setAmount(dto.getAmount());
-		account.setCurrencyType(dto.getCurrencyType());
-		return account;
-	}
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "createTime", ignore = true)
+	Account toEntity(DtoAccountIU dtoAccountIU);
 }

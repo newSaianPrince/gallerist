@@ -1,6 +1,9 @@
 package com.omersemizoglu.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import com.omersemizoglu.dto.response.RootEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +15,12 @@ import com.omersemizoglu.service.AddressService;
 
 import jakarta.validation.Valid;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/rest/api/address")
 public class RestAddressController extends RestBaseController {
 
-	@Autowired
-	private AddressService addressService;
+	private final AddressService addressService;
 	
 	@PostMapping("/save")
 	public RootEntity<DtoAddress> saveAddress(@Valid @RequestBody DtoAddressIU dtoAddressIU) {

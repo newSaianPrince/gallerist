@@ -1,8 +1,9 @@
 package com.omersemizoglu.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.request.DtoAccountIU;
@@ -11,18 +12,17 @@ import com.omersemizoglu.mapper.AccountMapper;
 import com.omersemizoglu.model.Account;
 import com.omersemizoglu.repository.AccountRepository;
 
+@RequiredArgsConstructor
 @Service
 public class AccountService {
 
-	@Autowired
-	private AccountRepository accountRepository;
+	private final AccountRepository accountRepository;
 
-	@Autowired
-	private AccountMapper accountMapper;
+	private final AccountMapper accountMapper;
 
 	private Account createAccount(DtoAccountIU dtoAccountIU) {
 		Account account = accountMapper.toEntity(dtoAccountIU);
-		account.setCreateTime(new Date());
+		account.setCreateTime(LocalDateTime.now());
 		return account;
 	}
 

@@ -1,18 +1,13 @@
 package com.omersemizoglu.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-import com.omersemizoglu.auth.model.User;
 import com.omersemizoglu.dto.response.DtoUser;
+import com.omersemizoglu.auth.model.User;
 
-@Component
-public class UserMapper {
-
-	public DtoUser toDto(User user) {
-		DtoUser dto = new DtoUser();
-		dto.setId(user.getId());
-		dto.setCreateTime(user.getCreateTime());
-		dto.setUsername(user.getUsername());
-		return dto;
-	}
+@Mapper(componentModel = "spring")
+public interface UserMapper {
+	@Mapping(target = "password", ignore = true)
+	DtoUser toDto(User user);
 }

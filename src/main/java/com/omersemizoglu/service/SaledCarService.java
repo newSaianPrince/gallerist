@@ -1,11 +1,12 @@
 package com.omersemizoglu.service;
 
+import lombok.RequiredArgsConstructor;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.response.CurrencyRatesResponse;
@@ -25,31 +26,26 @@ import com.omersemizoglu.repository.GalleristRepository;
 import com.omersemizoglu.repository.SaledCarRepository;
 import com.omersemizoglu.utils.DateUtils;
 
+@RequiredArgsConstructor
 @Service
 public class SaledCarService {
 	
-	@Autowired
-	private SaledCarRepository saledCarRepository;
+	private final SaledCarRepository saledCarRepository;
 
-	@Autowired
-	private CustomerRepository customerRepository;
+	private final CustomerRepository customerRepository;
 
-	@Autowired
-	private GalleristRepository galleristRepository;
+	private final GalleristRepository galleristRepository;
 
-	@Autowired
-	private CarRepository carRepository;
+	private final CarRepository carRepository;
 
-	@Autowired
-	private CurrencyRatesService currencyRatesService;
+	private final CurrencyRatesService currencyRatesService;
 
-	@Autowired
-	private SaledCarMapper saledCarMapper;
+	private final SaledCarMapper saledCarMapper;
 	
 
 	public BigDecimal convertCustomerAmountToUSD(Customer customer) {
 		CurrencyRatesResponse currencyRatesResponse = currencyRatesService
-				.getCurrencyRates(DateUtils.getCurrentDate(new Date()),DateUtils.getCurrentDate(new Date()));
+				.getCurrencyRates(DateUtils.getCurrentDate(LocalDateTime.now()),DateUtils.getCurrentDate(LocalDateTime.now()));
 		BigDecimal usd = new BigDecimal(currencyRatesResponse.getItems().get(0).getUsd());
 		BigDecimal customerUSDAmount = customer.getAccount().getAmount().divide(usd, 2, RoundingMode.HALF_UP);
 		return customerUSDAmount;
@@ -67,7 +63,7 @@ public class SaledCarService {
 		BigDecimal customerUSDAmount = convertCustomerAmountToUSD(customer);
 		BigDecimal remaningCustomerUSDAmount = customerUSDAmount.subtract(car.getPrice());
 		
-		CurrencyRatesResponse currencyRatesResponse = currencyRatesService.getCurrencyRates(DateUtils.getCurrentDate(new Date()),DateUtils.getCurrentDate(new Date()));
+		CurrencyRatesResponse currencyRatesResponse = currencyRatesService.getCurrencyRates(DateUtils.getCurrentDate(LocalDateTime.now()),DateUtils.getCurrentDate(LocalDateTime.now()));
 		BigDecimal usd = new BigDecimal(currencyRatesResponse.getItems().get(0).getUsd());
 		
 		return  remaningCustomerUSDAmount.multiply(usd);
@@ -96,7 +92,7 @@ public class SaledCarService {
 	
 	private SaledCar createSaledCar(DtoSaledCarIU dtoSaledCarIU) {
 		SaledCar saledCar = new SaledCar();
-		saledCar.setCreateTime(new Date());
+		saledCar.setCreateTime(LocalDateTime.now());
 		
 		saledCar.setCustomer(customerRepository.findById(dtoSaledCarIU.getCustomerId()).orElse(null));
 		saledCar.setGallerist(galleristRepository.findById(dtoSaledCarIU.getGalleristId()).orElse(null));

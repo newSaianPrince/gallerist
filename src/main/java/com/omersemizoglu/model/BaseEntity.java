@@ -1,9 +1,6 @@
 package com.omersemizoglu.model;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +20,5 @@ public class BaseEntity {
 	private Long id;
 	
 	@Column(name = "create_time")
-	@DateTimeFormat(iso = ISO.DATE_TIME)
-	private Date createTime;
+	private LocalDateTime createTime;
 }

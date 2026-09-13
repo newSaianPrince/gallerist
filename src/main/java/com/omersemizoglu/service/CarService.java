@@ -1,8 +1,9 @@
 package com.omersemizoglu.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.request.DtoCarIU;
@@ -11,18 +12,17 @@ import com.omersemizoglu.mapper.CarMapper;
 import com.omersemizoglu.model.Car;
 import com.omersemizoglu.repository.CarRepository;
 
+@RequiredArgsConstructor
 @Service
 public class CarService {
 
-	@Autowired
-	private CarRepository carRepository;
+	private final CarRepository carRepository;
 
-	@Autowired
-	private CarMapper carMapper;
+	private final CarMapper carMapper;
 
 	private Car createCar(DtoCarIU dtoCarIU) {
 		Car car = carMapper.toEntity(dtoCarIU);
-		car.setCreateTime(new Date());
+		car.setCreateTime(LocalDateTime.now());
 		return car;
 	}
 

@@ -1,9 +1,10 @@
 package com.omersemizoglu.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.request.DtoCustomerIU;
@@ -19,20 +20,17 @@ import com.omersemizoglu.repository.AccountRepository;
 import com.omersemizoglu.repository.AddressRepository;
 import com.omersemizoglu.repository.CustomerRepository;
 
+@RequiredArgsConstructor
 @Service
 public class CustomerService {
 
-	@Autowired
-	private CustomerRepository customerRepository;
+	private final CustomerRepository customerRepository;
 
-	@Autowired
-	private AddressRepository addressRepository;
+	private final AddressRepository addressRepository;
 
-	@Autowired
-	private AccountRepository accountRepository;
+	private final AccountRepository accountRepository;
 
-	@Autowired
-	private CustomerMapper customerMapper;
+	private final CustomerMapper customerMapper;
 
 	private Customer createCustomer(DtoCustomerIU dtoCustomerIU) {
 		Optional<Address> optAddress = addressRepository.findById(dtoCustomerIU.getAddressId());
@@ -46,7 +44,7 @@ public class CustomerService {
 		}
 
 		Customer customer = new Customer();
-		customer.setCreateTime(new Date());
+		customer.setCreateTime(LocalDateTime.now());
 		customer.setFirstName(dtoCustomerIU.getFirstName());
 		customer.setLastName(dtoCustomerIU.getLastName());
 		customer.setTckn(dtoCustomerIU.getTckn());

@@ -1,8 +1,9 @@
 package com.omersemizoglu.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.request.DtoAddressIU;
@@ -11,18 +12,17 @@ import com.omersemizoglu.mapper.AddressMapper;
 import com.omersemizoglu.model.Address;
 import com.omersemizoglu.repository.AddressRepository;
 
+@RequiredArgsConstructor
 @Service
 public class AddressService {
 
-	@Autowired
-	private AddressRepository addressRepository;
+	private final AddressRepository addressRepository;
 
-	@Autowired
-	private AddressMapper addressMapper;
+	private final AddressMapper addressMapper;
 
 	private Address createAddress(DtoAddressIU dtoAddressIU) {
 		Address address = addressMapper.toEntity(dtoAddressIU);
-		address.setCreateTime(new Date());
+		address.setCreateTime(LocalDateTime.now());
 		return address;
 	}
 

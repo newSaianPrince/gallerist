@@ -1,8 +1,9 @@
 package com.omersemizoglu.auth.jwt;
 
+import lombok.RequiredArgsConstructor;
+
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,14 +21,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@RequiredArgsConstructor
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter{
 
-	@Autowired
-	private JWTService jwtService;
+	private final JWTService jwtService;
 	
-	@Autowired
-	private UserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

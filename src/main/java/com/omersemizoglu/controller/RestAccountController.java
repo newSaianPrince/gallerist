@@ -1,6 +1,9 @@
 package com.omersemizoglu.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import com.omersemizoglu.dto.response.RootEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +15,12 @@ import com.omersemizoglu.service.AccountService;
 
 import jakarta.validation.Valid;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/rest/api/account")
 public class RestAccountController extends RestBaseController {
 
-	@Autowired
-	private AccountService accountService;
+	private final AccountService accountService;
 	
 	@PostMapping("/save")
 	public RootEntity<DtoAccount> saveAccount(@Valid @RequestBody DtoAccountIU dtoAccountIU) {

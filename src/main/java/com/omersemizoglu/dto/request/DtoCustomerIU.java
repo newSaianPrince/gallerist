@@ -1,6 +1,6 @@
 package com.omersemizoglu.dto.request;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class DtoCustomerIU {
 	private String tckn;
 	
 	@NotNull
-	private Date birthOfDate;
+	private LocalDate birthOfDate;
 	
 	@NotNull
 	private Long addressId;

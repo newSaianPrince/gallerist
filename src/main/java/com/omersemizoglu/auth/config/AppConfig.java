@@ -1,8 +1,9 @@
 package com.omersemizoglu.auth.config;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,11 +20,11 @@ import com.omersemizoglu.exception.MessageType;
 import com.omersemizoglu.auth.model.User;
 import com.omersemizoglu.auth.repository.UserRepository;
 
+@RequiredArgsConstructor
 @Configuration
 public class AppConfig {
 
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
 	@Bean
 	public UserDetailsService userDetailsService() {

@@ -1,6 +1,9 @@
 package com.omersemizoglu.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import com.omersemizoglu.dto.response.RootEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +15,12 @@ import com.omersemizoglu.service.SaledCarService;
 
 import jakarta.validation.Valid;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/rest/api/saled-car")
 public class RestSaledCarController extends RestBaseController {
 
-	@Autowired
-	private SaledCarService saledCarService;
+	private final SaledCarService saledCarService;
 	
 	@PostMapping("/save")
 	public RootEntity<DtoSaledCar> buyCar(@Valid @RequestBody DtoSaledCarIU dtoSaledCarIU) {

@@ -1,9 +1,10 @@
 package com.omersemizoglu.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.request.DtoGalleristCarIU;
@@ -19,20 +20,17 @@ import com.omersemizoglu.repository.CarRepository;
 import com.omersemizoglu.repository.GalleristCarRepository;
 import com.omersemizoglu.repository.GalleristRepository;
 
+@RequiredArgsConstructor
 @Service
 public class GalleristCarService {
 
-	@Autowired
-	private GalleristCarRepository galleristCarRepository;
+	private final GalleristCarRepository galleristCarRepository;
 
-	@Autowired
-	private GalleristRepository galleristRepository;
+	private final GalleristRepository galleristRepository;
 
-	@Autowired
-	private CarRepository carRepository;
+	private final CarRepository carRepository;
 
-	@Autowired
-	private GalleristCarMapper galleristCarMapper;
+	private final GalleristCarMapper galleristCarMapper;
 
 	private GalleristCar createGalleristCar(DtoGalleristCarIU dtoGalleristCarIU) {
 		Optional<Gallerist> optGallerist = galleristRepository.findById(dtoGalleristCarIU.getGalleristId());
@@ -46,7 +44,7 @@ public class GalleristCarService {
 		}
 
 		GalleristCar galleristCar = new GalleristCar();
-		galleristCar.setCreateTime(new Date());
+		galleristCar.setCreateTime(LocalDateTime.now());
 		galleristCar.setGallerist(optGallerist.get());
 		galleristCar.setCar(optCar.get());
 

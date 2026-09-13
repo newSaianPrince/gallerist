@@ -1,12 +1,13 @@
 package com.omersemizoglu.auth.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.omersemizoglu.controller.RestBaseController;
-import com.omersemizoglu.controller.RootEntity;
+import com.omersemizoglu.dto.response.RootEntity;
 import com.omersemizoglu.dto.auth.AuthRequest;
 import com.omersemizoglu.dto.auth.AuthResponse;
 import com.omersemizoglu.dto.response.DtoUser;
@@ -15,11 +16,11 @@ import com.omersemizoglu.auth.service.AuthenticationService;
 
 import jakarta.validation.Valid;
 
+@RequiredArgsConstructor
 @RestController
 public class RestAuthenticationController extends RestBaseController{
 
-	@Autowired
-	private AuthenticationService authenticationService;
+	private final AuthenticationService authenticationService;
 	
 	@PostMapping("/register")
 	public RootEntity<DtoUser> register(@Valid @RequestBody AuthRequest input) {

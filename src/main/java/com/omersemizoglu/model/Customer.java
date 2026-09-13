@@ -1,9 +1,6 @@
 package com.omersemizoglu.model;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.omersemizoglu.enums.CurrencyType;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +29,7 @@ public class Customer extends BaseEntity{
 	private String tckn;
 	
 	@Column(name = "birth_of_date")
-	private Date birthOfDate;
+	private LocalDate birthOfDate;
 	
 	@OneToOne
 	private Address address;

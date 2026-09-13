@@ -1,6 +1,9 @@
 package com.omersemizoglu.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
+import com.omersemizoglu.dto.response.RootEntity;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +15,12 @@ import com.omersemizoglu.service.GalleristCarService;
 
 import jakarta.validation.Valid;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/rest/api/gallerist-car")
 public class RestGalleristCarController extends RestBaseController {
 
-	@Autowired
-	private GalleristCarService galleristCarService;
+	private final GalleristCarService galleristCarService;
 	
 	@PostMapping("/save")
 	public RootEntity<DtoGalleristCar> saveGalleristCar(@Valid @RequestBody DtoGalleristCarIU dtoGalleristCarIU) {

@@ -1,6 +1,6 @@
 package com.omersemizoglu.auth.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.omersemizoglu.model.BaseEntity;
 
@@ -26,7 +26,7 @@ public class RefreshToken extends BaseEntity{
 	private String refreshToken;
 	
 	@Column(name = "expired_date")
-	private Date expiredDate;
+	private LocalDateTime expiredDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
 	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -51,7 +51,7 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="create_time" type="datetime"/>
-            <column name="birth_of_date" type="datetime"/>
+            <column name="birth_of_date" type="date"/>
             <column name="first_name" type="varchar(255)"/>
             <column name="last_name" type="varchar(255)"/>
             <column name="tckn" type="varchar(255)"/>

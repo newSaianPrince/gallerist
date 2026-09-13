@@ -1,6 +1,7 @@
 package com.omersemizoglu.auth.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.omersemizoglu.auth.handler.AuthEntryPoint;
 import com.omersemizoglu.auth.jwt.JWTAuthenticationFilter;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -21,14 +23,11 @@ public class SecurityConfig {
 	public static final String AUTHENTICATE = "/authenticate";
 	public static final String REFRESH_TOKEN = "/refreshToken";
 	
-	@Autowired
-	private AuthenticationProvider authenticationProvider;
+	private final AuthenticationProvider authenticationProvider;
 	
-	@Autowired
-	private JWTAuthenticationFilter jwtAuthenticationFilter;
+	private final JWTAuthenticationFilter jwtAuthenticationFilter;
 	
-	@Autowired
-	private AuthEntryPoint authEntryPoint;
+	private final AuthEntryPoint authEntryPoint;
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

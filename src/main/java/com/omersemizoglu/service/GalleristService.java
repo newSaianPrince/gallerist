@@ -1,9 +1,10 @@
 package com.omersemizoglu.service;
 
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omersemizoglu.dto.request.DtoGalleristIU;
@@ -17,17 +18,15 @@ import com.omersemizoglu.model.Gallerist;
 import com.omersemizoglu.repository.AddressRepository;
 import com.omersemizoglu.repository.GalleristRepository;
 
+@RequiredArgsConstructor
 @Service
 public class GalleristService {
 
-	@Autowired
-	private GalleristRepository galleristRepository;
+	private final GalleristRepository galleristRepository;
 
-	@Autowired
-	private AddressRepository addressRepository;
+	private final AddressRepository addressRepository;
 
-	@Autowired
-	private GalleristMapper galleristMapper;
+	private final GalleristMapper galleristMapper;
 
 	private Gallerist createGallerist(DtoGalleristIU dtoGalleristIU) {
 		Optional<Address> optAddress = addressRepository.findById(dtoGalleristIU.getAddressId());
@@ -37,7 +36,7 @@ public class GalleristService {
 		}
 
 		Gallerist gallerist = new Gallerist();
-		gallerist.setCreateTime(new Date());
+		gallerist.setCreateTime(LocalDateTime.now());
 		gallerist.setFirstName(dtoGalleristIU.getFirstName());
 		gallerist.setLastName(dtoGalleristIU.getLastName());
 		gallerist.setAddress(optAddress.get());

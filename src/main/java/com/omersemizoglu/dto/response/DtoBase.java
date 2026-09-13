@@ -1,6 +1,6 @@
 package com.omersemizoglu.dto.response;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,5 +11,5 @@ public class DtoBase {
 
 	private Long id;
 	
-	private Date createTime;
+	private LocalDateTime createTime;
 }
