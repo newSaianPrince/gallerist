@@ -27,5 +27,9 @@ public class RestSaledCarController extends RestBaseController {
 		return ok(saledCarService.buyCar(dtoSaledCarIU));
 	}
 
+	@PostMapping("/save/queue")
+	public RootEntity<String> buyCarQueue(@Valid @RequestBody DtoSaledCarIU dtoSaledCarIU) {
+		saledCarService.buyCarQueue(dtoSaledCarIU);
+		return ok("Satis isteginiz kuyruga alindi. En kisa surede islenecektir.");
+	}
 }
-

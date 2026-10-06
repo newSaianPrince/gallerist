@@ -7,7 +7,9 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+import com.omersemizoglu.config.RabbitMQConfig;
 
 import com.omersemizoglu.dto.response.CurrencyRatesResponse;
 import com.omersemizoglu.dto.request.DtoSaledCarIU;
@@ -41,6 +43,8 @@ public class SaledCarService {
 	private final CurrencyRatesService currencyRatesService;
 
 	private final SaledCarMapper saledCarMapper;
+
+	private final RabbitTemplate rabbitTemplate;
 	
 
 	public BigDecimal convertCustomerAmountToUSD(Customer customer) {
@@ -101,6 +105,11 @@ public class SaledCarService {
 		return saledCar;
 	}
 
+	public void buyCarQueue(DtoSaledCarIU dtoSaledCarIU) {
+		String message = dtoSaledCarIU.getCustomerId() + ":" + dtoSaledCarIU.getGalleristId() + ":" + dtoSaledCarIU.getCarId();
+		rabbitTemplate.convertAndSend(RabbitMQConfig.SALE_QUEUE, message);
+	}
+
 	public DtoSaledCar buyCar(DtoSaledCarIU dtoSaledCarIU) {
 		
 		if(!checkCarStatus(dtoSaledCarIU.getCarId())) {
@@ -124,3 +133,4 @@ public class SaledCarService {
 		return saledCarMapper.toDto(savedSaledCar);
 	}
 }
+
